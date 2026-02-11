@@ -42,14 +42,11 @@ export const Card = ({ item, type }) => {
   };
 
   const getImageUrl = () => {
-  const baseUrl = "https://starwars-visualguide.com/assets/img";
-  switch (type) {
-    case "people": return `${baseUrl}/characters/${item.uid}.jpg`;
-    case "vehicles": return `${baseUrl}/vehicles/${item.uid}.jpg`;
-    case "planets": return `${baseUrl}/planets/${item.uid}.jpg`;
-    default: return `${baseUrl}/placeholder.jpg`;
-  }
-};
+    const baseUrl = "https://starwars-visualguide.com/assets/img";
+    if (type === "people") return `${baseUrl}/characters/${item.uid}.jpg`;
+    if (type === "vehicles") return `${baseUrl}/vehicles/${item.uid}.jpg`;
+    if (type === "planets") return `${baseUrl}/planets/${item.uid}.jpg`;
+  };
 
   return (
     <div className="card" style={{ width: "18rem" }}>

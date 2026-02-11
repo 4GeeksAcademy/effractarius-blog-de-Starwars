@@ -1,5 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import logoSW from "../assets/img/logo_SW.jpg";
+
 
 export const Single = () => {
   const { type, id } = useParams();
@@ -104,9 +106,11 @@ export const Single = () => {
             className="img-fluid rounded"
             alt={entity.properties.name}
             onError={(e) => {
-              e.target.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg";
+              e.target.onerror = null; // prevent infinite loop
+              e.target.src = "https://source.unsplash.com/400x300/?starwars";
             }}
           />
+
         </div>
         <div className="col-md-6">
           <h1 className="display-4">{entity.properties.name}</h1>
