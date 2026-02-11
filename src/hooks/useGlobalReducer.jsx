@@ -1,17 +1,33 @@
-// Import necessary hooks and functions from React.
-import { useContext, useReducer, createContext } from "react";
-import storeReducer, { initialStore } from "../store"  // Import the reducer and the initial state.
+import { useContext, useReducer, createContext, useEffect } from "react";
+import storeReducer, { initialStore } from "../store"
 
-// Create a context to hold the global state of the application
-// We will call this global state the "store" to avoid confusion while using local states
 const StoreContext = createContext()
 
-// Define a provider component that encapsulates the store and warps it in a context provider to 
-// broadcast the information throught all the app pages and components.
+const STORAGE_KEY = "starwars_store";
+
+const loadFromLocalStorage = () => {
+    try {
+        const savedStore = localStorage.getItem(STORAGE_KEY);
+        if (savedStore) {
+            return JSON.parse(savedStore);
+        }
+    } catch (error) {
+        console.error("Error loading from localStorage:", error);
+    }
+    return initialStore();
+};
+
 export function StoreProvider({ children }) {
-    // Initialize reducer with the initial state.
-    const [store, dispatch] = useReducer(storeReducer, initialStore())
-    // Provide the store and dispatch method to all child components.
+    const [store, dispatch] = useReducer(storeReducer, null, loadFromLocalStorage);
+
+    useEffect(() => {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+        } catch (error) {
+            console.error("Error saving to localStorage:", error);
+        }
+    }, [store]);
+
     return <StoreContext.Provider value={{ store, dispatch }}>
         {children}
     </StoreContext.Provider>
