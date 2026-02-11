@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import logoSW from "../assets/img/logo_SW.jpg";
 
 export const Card = ({ item, type }) => {
   const { store, dispatch } = useGlobalReducer();
@@ -56,7 +57,9 @@ export const Card = ({ item, type }) => {
         alt={item.name}
         style={{ height: "200px", objectFit: "cover" }}
         onError={(e) => {
-          e.target.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg";
+          if (!e.target.src.endsWith(logoSW)) {
+            e.target.src = logoSW;
+          }
         }}
       />
       <div className="card-body">
